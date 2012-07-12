@@ -1,7 +1,7 @@
 symlink
 =======
 
-Feed it a yaml file; receive a load of symbolic links.  
+Feed it yaml; collect symbolic links.  
 
 `symlink example.yml`  
 
