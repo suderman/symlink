@@ -1,0 +1,22 @@
+# symlink example.yml 
+#####################
+
+# Each directory in the tree is created.
+~/:
+  
+  # With the exception of home ~/, don't use 
+  # trailing slashes in your directory names.
+  symlink-example:
+
+    # Specify a symbolic link with an arrow.
+    install.sh:            -> install.sh
+    readme.md:             -> README.md
+
+    # Target files are relative to the CWD.
+    directory:
+      symlink-example.yml: -> example.yml
+
+    # Without a -> file mentioned, an empty 
+    # directory is created instead.
+    empty-dir:
+      empty-subdir
