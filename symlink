@@ -41,7 +41,7 @@ class Symlink
   def process(file, prepend_path='')
     file.each do |key, val|
 
-      path = (key=='~/') ? File.expand_path(key) : "#{prepend_path}/#{key}".gsub('//','/')
+      path = (key.match /^~\//) ? File.expand_path(key) : "#{prepend_path}/#{key}".gsub('//','/')
       file = val
 
       if file.class.to_s != "String"
@@ -65,20 +65,25 @@ class Symlink
 
   # Make a directory, using sudo if needed
   def mkdir(target)
-    created = 'Created '
+    unless File.exist?(target)
 
-    # Attempt to create this directory, sudo-free
-    output = `mkdir -p "#{target.strip}" 2>&1`
+      created = 'Created '
 
-    # If that doesn't work, go full-sudo
-    if output.match(/permission denied/i)
-      created = 'Created (sudo) '
-      `sudo mkdir -p "#{target.strip}" 2>&1`
+      # Attempt to create this directory, sudo-free
+      output = `mkdir -p "#{target.strip}" 2>&1`
+
+      # If that doesn't work, go full-sudo
+      if output.match(/permission denied/i)
+        created = 'Created (sudo) '
+        `sudo mkdir -p "#{target.strip}" 2>&1`
+      end
+
+      # Report what happened
+      puts blue(created) + gray(target)
+
     end
-
-    # Report what happened
-    puts blue(created) + gray(target)
   end
+
 
   # Delete the target file
   def rm(target)
@@ -115,21 +120,28 @@ class Symlink
     # If the destination is a symlink or doesn't exist
     else
 
-      # First delete the destination if it exists as a directory
-      rm dest if File.directory? dest
+      # Ensure the target actually exists
+      unless File.exist?(targ)
+        puts red("[error]") + gray("\"#{target}\" not found!")
+      else
 
-      # Attempt to link this file, sudo-free
-      linked = 'Linked '
-      output = `ln -sf "#{targ}" "#{dest}" 2>&1`
+        # First delete the destination if it exists as a directory
+        rm dest if File.directory? dest
 
-      # If that doesn't work, go full-sudo
-      if output.match(/permission denied/i)
-        linked = 'Linked (sudo) '
-        `sudo ln -sf "#{targ}" "#{dest}" 2>&1`
+        # Attempt to link this file, sudo-free
+        linked = 'Linked '
+        output = `ln -sf "#{targ}" "#{dest}" 2>&1`
+
+        # If that doesn't work, go full-sudo
+        if output.match(/permission denied/i)
+          linked = 'Linked (sudo) '
+          `sudo ln -sf "#{targ}" "#{dest}" 2>&1`
+        end
+
+        # Report what happened
+        puts blue(linked) + gray(dest) + yellow(' -> ') + gray(targ)
+
       end
-
-      # Report what happened
-      puts blue(linked) + gray(dest) + yellow(' -> ') + gray(targ)
     end
   end
 
