@@ -9,13 +9,16 @@
 # Ensure /usr/local/bin exists
 if [ ! -d "/usr/local" ]; then
   sudo mkdir -p /usr/local/bin
-  sudo chown `whoami`:admin /usr/{local,local/bin}
+  ULB_CHOWNER=`whoami`:`ls -ld /usr | awk '{print $4}'`
+  sudo chown $ULB_OWNER /usr/{local,local/bin}
 fi
 
 # Download symlink into /usr/local/bin
-curl https://raw.github.com/suderman/symlink/master/symlink -o /usr/local/bin/symlink
+sudo curl https://raw.github.com/suderman/symlink/master/symlink -o /usr/local/bin/symlink
 
 # Set permissions
-chmod +x /usr/local/bin/symlink
+ULB_OWNER=`ls -ld /usr/local/bin | awk '{print $3}'`:`ls -ld /usr/local/bin | awk '{print $4}'`
+sudo chown $ULB_OWNER /usr/local/bin/symlink 
+sudo chmod +x /usr/local/bin/symlink
 
 echo "Installed symlink to /usr/local/bin"
