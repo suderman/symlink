@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# 2012 Jon Suderman
+# 2013 Jon Suderman
 # https://github.com/suderman/symlink/
 
 # Open a terminal and run this command:
