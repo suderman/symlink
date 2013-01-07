@@ -9,7 +9,7 @@
 # Ensure /usr/local/bin exists
 if [ ! -d "/usr/local" ]; then
   sudo mkdir -p /usr/local/bin
-  ULB_CHOWNER=`whoami`:`ls -ld /usr | awk '{print $4}'`
+  ULB_OWNER=`whoami`:`ls -ld /usr | awk '{print $4}'`
   sudo chown $ULB_OWNER /usr/{local,local/bin}
 fi
 
