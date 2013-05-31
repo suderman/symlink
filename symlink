@@ -106,7 +106,7 @@ class Symlink
   # Create a symbolic link
   def ln(target, destination)
     dest = File.expand_path destination
-    targ = File.expand_path "./#{target}"
+    targ = File.expand_path target
 
     # If the destination already exists as a file or directory
     if File.exist?(dest) and File.symlink?(dest)==false
