@@ -5,7 +5,7 @@
 <style>.navbar .brand { text-transform: normal !important; }</style>
 
 <script>
-  $.get('/README.md', function(data) {
+  $.get('README.md', function(data) {
     $('title').text(window.location.host);
     $('xmp').text(data.trim());
     $.getScript('http://strapdownjs.com/v/0.2/strapdown.js');
