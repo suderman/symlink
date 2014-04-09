@@ -1,12 +1,11 @@
 <!DOCTYPE html>
 <html>
-<title></title>
+<title>{{ site.github.repository_nwo }}</title>
 <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
 <style>.navbar .brand { text-transform: normal !important; }</style>
 
 <script>
   $.get('README.md', function(data) {
-    $('title').text(window.location.host);
     $('xmp').text(data.trim());
     $.getScript('http://strapdownjs.com/v/0.2/strapdown.js');
   });
@@ -14,6 +13,9 @@
 
 <!-- https://github.com/arturadib/strapdown/tree/gh-pages/v/0.2/themes -->
 <xmp theme="journal" style="display:none;"></xmp>
+
+<hr>
+<p><a href="{{ site.github.repository_url }}">View code on github.com</a></p>
 
 </html>
 
